@@ -53,6 +53,7 @@ class McpToolRegistrationTest {
                 deps.cameraProvider,
                 deps.intentDispatcher,
                 deps.locationProvider,
+                deps.screenPowerController,
             ),
             InboxToolDeps(deps.notificationProvider, deps.sharedContentInbox, deps.ephemeralFileLinkService),
             ShellToolDeps(
