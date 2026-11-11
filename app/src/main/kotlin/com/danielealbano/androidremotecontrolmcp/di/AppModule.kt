@@ -51,6 +51,8 @@ import com.danielealbano.androidremotecontrolmcp.services.intents.IntentDispatch
 import com.danielealbano.androidremotecontrolmcp.services.intents.IntentDispatcherImpl
 import com.danielealbano.androidremotecontrolmcp.services.notifications.NotificationProvider
 import com.danielealbano.androidremotecontrolmcp.services.notifications.NotificationProviderImpl
+import com.danielealbano.androidremotecontrolmcp.services.power.ScreenPowerController
+import com.danielealbano.androidremotecontrolmcp.services.power.ScreenPowerControllerImpl
 import com.danielealbano.androidremotecontrolmcp.services.screencapture.ApiLevelProvider
 import com.danielealbano.androidremotecontrolmcp.services.screencapture.DefaultApiLevelProvider
 import com.danielealbano.androidremotecontrolmcp.services.screencapture.ScreenCaptureProvider
@@ -229,6 +231,10 @@ abstract class ServiceModule {
     @Binds
     @Singleton
     abstract fun bindActionExecutor(impl: ActionExecutorImpl): ActionExecutor
+
+    @Binds
+    @Singleton
+    abstract fun bindScreenPowerController(impl: ScreenPowerControllerImpl): ScreenPowerController
 
     @Binds
     @Singleton

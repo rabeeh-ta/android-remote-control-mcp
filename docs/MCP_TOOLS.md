@@ -35,12 +35,12 @@ This document provides a comprehensive reference for all MCP tools available in 
 
 ## Overview
 
-The MCP server exposes 65 tools via the JSON-RPC 2.0 protocol, organized into 15 categories:
+The MCP server exposes 68 tools via the JSON-RPC 2.0 protocol, organized into 15 categories:
 
 | Category | Tools | Plan |
 |----------|-------|------|
 | Screen Introspection | `android_get_screen_state`, `android_get_node_screenshots` | 7, 15, 70 |
-| System Actions | `android_press_back`, `android_press_home`, `android_press_recents`, `android_open_notifications`, `android_open_quick_settings`, `android_dismiss_keyboard` | 6 |
+| System Actions | `android_press_back`, `android_press_home`, `android_press_recents`, `android_open_notifications`, `android_open_quick_settings`, `android_dismiss_keyboard`, `android_lock_screen`, `android_wake_screen`, `android_get_lock_state` | 6 |
 | Touch Actions | `android_tap`, `android_long_press`, `android_double_tap`, `android_swipe`, `android_scroll` | 8 |
 | Gestures | `android_pinch`, `android_custom_gesture` | 8 |
 | Node Actions | `android_find_nodes`, `android_click_node`, `android_long_click_node`, `android_perform_node_action`, `android_tap_node`, `android_scroll_to_node`, `android_scroll_node` | 9, 35, 69 |
@@ -788,6 +788,148 @@ When no keyboard was open, the response text is `"No keyboard was open"`.
 **Error Cases**:
 - **Permission denied**: Accessibility service not enabled
 - **Action failed**: Dismissing the keyboard failed
+
+### `android_lock_screen`
+
+Locks the phone: turns the screen off and shows the lock screen, like pressing the power button. Uses the accessibility lock-screen global action (no root). Locking an already locked phone is a no-op.
+
+**Input Schema**:
+```json
+{
+  "type": "object",
+  "properties": {},
+  "required": []
+}
+```
+
+**Request Example**:
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "tools/call",
+  "params": {
+    "name": "android_lock_screen",
+    "arguments": {}
+  }
+}
+```
+
+**Response Example (Success)**:
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Lock screen executed successfully"
+      }
+    ]
+  }
+}
+```
+
+**Error Cases**:
+- **Permission denied**: Accessibility service not enabled
+- **Action failed**: The lock action failed
+
+---
+
+### `android_wake_screen`
+
+Turns the screen on without unlocking the phone, using a short screen wake lock (needs no accessibility service and no root). An already-on screen is left as it is. The response is a status line followed by the same `key=value` lines as `android_get_lock_state`. If the lock screen is showing, unlock it with the regular tools: swipe up, then tap the PIN keys found with `android_get_screen_state`.
+
+**Input Schema**:
+```json
+{
+  "type": "object",
+  "properties": {},
+  "required": []
+}
+```
+
+**Request Example**:
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "tools/call",
+  "params": {
+    "name": "android_wake_screen",
+    "arguments": {}
+  }
+}
+```
+
+**Response Example (Success)**:
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Screen turned on\nscreen_on=true\nlock_screen_showing=true\ndevice_locked=true\ndevice_secure=true"
+      }
+    ]
+  }
+}
+```
+
+When the screen was already on, the first line is `"Screen was already on"`.
+
+**Error Cases**:
+- **Action failed**: The screen is still off after the wake attempt. On Android 15 and later, allow "Turn screen on" for the app in Settings > Apps > Special app access
+
+---
+
+### `android_get_lock_state`
+
+Reports the screen and lock state, one `key=value` line per field: `screen_on` (display is on), `lock_screen_showing` (keyguard is showing, secure or not), `device_locked` (a PIN/pattern/password is needed to unlock right now) and `device_secure` (one is set at all). Works while the phone is locked and needs no accessibility service.
+
+**Input Schema**:
+```json
+{
+  "type": "object",
+  "properties": {},
+  "required": []
+}
+```
+
+**Request Example**:
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "tools/call",
+  "params": {
+    "name": "android_get_lock_state",
+    "arguments": {}
+  }
+}
+```
+
+**Response Example (Success)**:
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "screen_on=false\nlock_screen_showing=true\ndevice_locked=true\ndevice_secure=true"
+      }
+    ]
+  }
+}
+```
+
+**Error Cases**:
+- None specific to this tool
 
 ---
 

@@ -15,6 +15,7 @@ import com.danielealbano.androidremotecontrolmcp.mcp.tools.registerLocationTools
 import com.danielealbano.androidremotecontrolmcp.mcp.tools.registerNodeActionTools
 import com.danielealbano.androidremotecontrolmcp.mcp.tools.registerNotificationTools
 import com.danielealbano.androidremotecontrolmcp.mcp.tools.registerScreenIntrospectionTools
+import com.danielealbano.androidremotecontrolmcp.mcp.tools.registerScreenPowerTools
 import com.danielealbano.androidremotecontrolmcp.mcp.tools.registerSharingTools
 import com.danielealbano.androidremotecontrolmcp.mcp.tools.registerShellTools
 import com.danielealbano.androidremotecontrolmcp.mcp.tools.registerSystemActionTools
@@ -74,6 +75,7 @@ class McpToolRegistration
                 perms,
             )
             registerLocationTools(registrar, d.locationProvider, privacy.privacyToolGate, toolNamePrefix, perms)
+            registerScreenPowerTools(registrar, d.screenPowerController, toolNamePrefix, perms)
             registerSharingBundle(registrar, toolNamePrefix, perms, fileSizeLimitMb, currentBaseUrl)
             registerShellTools(
                 registrar,

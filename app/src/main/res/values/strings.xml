@@ -70,6 +70,9 @@
     <string name="mcp_tool_open_notifications">Open Notifications</string>
     <string name="mcp_tool_open_quick_settings">Open Quick Settings</string>
     <string name="mcp_tool_dismiss_keyboard">Dismiss Keyboard</string>
+    <string name="mcp_tool_lock_screen">Lock Screen</string>
+    <string name="mcp_tool_wake_screen">Wake Screen</string>
+    <string name="mcp_tool_get_lock_state">Get Lock State</string>
     <string name="mcp_tool_tap">Tap</string>
     <string name="mcp_tool_long_press">Long Press</string>
     <string name="mcp_tool_double_tap">Double Tap</string>

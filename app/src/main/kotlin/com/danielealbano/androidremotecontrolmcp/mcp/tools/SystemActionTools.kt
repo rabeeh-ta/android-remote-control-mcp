@@ -287,6 +287,57 @@ class OpenQuickSettingsHandler
     }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// lock_screen
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * MCP tool handler for `lock_screen`.
+ *
+ * Locks the device via the accessibility lock-screen global action (turns the screen off and shows
+ * the lock screen). Locking an already locked device is a no-op for the system, so retries are safe.
+ *
+ * **Input**: `{}` (no parameters)
+ * **Output**: `{ "content": [{ "type": "text", "text": "Lock screen executed successfully" }] }`
+ * **Errors**:
+ *   - PermissionDenied if accessibility service is not enabled
+ *   - ActionFailed if action execution failed
+ */
+class LockScreenHandler
+    @Inject
+    constructor(
+        private val actionExecutor: ActionExecutor,
+        private val accessibilityServiceProvider: AccessibilityServiceProvider,
+    ) {
+        @Suppress("UnusedParameter")
+        suspend fun execute(arguments: JsonObject?): CallToolResult =
+            executeSystemAction(accessibilityServiceProvider, "Lock screen") {
+                actionExecutor.lockScreen()
+            }
+
+        fun register(
+            registrar: LoggedToolRegistrar,
+            toolNamePrefix: String,
+        ) {
+            registrar.addTool(
+                toolName = TOOL_NAME,
+                name = "$toolNamePrefix$TOOL_NAME",
+                description =
+                    "Locks the phone: turns the screen off and shows the lock screen, like pressing the " +
+                        "power button. Returns after the action is performed.",
+                inputSchema =
+                    ToolSchema(
+                        properties = buildJsonObject {},
+                        required = listOf(),
+                    ),
+            ) { request -> execute(request.arguments) }
+        }
+
+        companion object {
+            const val TOOL_NAME = "lock_screen"
+        }
+    }
+
+// ─────────────────────────────────────────────────────────────────────────────
 // dismiss_keyboard
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -381,6 +432,9 @@ fun registerSystemActionTools(
     }
     if (perms.isToolEnabled(OpenQuickSettingsHandler.TOOL_NAME)) {
         OpenQuickSettingsHandler(actionExecutor, accessibilityServiceProvider).register(registrar, toolNamePrefix)
+    }
+    if (perms.isToolEnabled(LockScreenHandler.TOOL_NAME)) {
+        LockScreenHandler(actionExecutor, accessibilityServiceProvider).register(registrar, toolNamePrefix)
     }
     if (perms.isToolEnabled(DismissKeyboardHandler.TOOL_NAME)) {
         DismissKeyboardHandler(actionExecutor, accessibilityServiceProvider).register(registrar, toolNamePrefix)

@@ -292,6 +292,61 @@ class SystemActionToolsTest {
     }
 
     // ─────────────────────────────────────────────────────────────────────
+    // lock_screen
+    // ─────────────────────────────────────────────────────────────────────
+
+    @Nested
+    @DisplayName("LockScreenHandler")
+    inner class LockScreenTests {
+        private lateinit var handler: LockScreenHandler
+
+        @BeforeEach
+        fun setUp() {
+            handler = LockScreenHandler(mockActionExecutor, mockAccessibilityServiceProvider)
+        }
+
+        @Test
+        @DisplayName("calls ActionExecutor.lockScreen and returns confirmation")
+        fun callsLockScreenAndReturnsConfirmation() =
+            runTest {
+                // Arrange
+                coEvery { mockActionExecutor.lockScreen() } returns Result.success(Unit)
+
+                // Act
+                val result = handler.execute(null)
+
+                // Assert
+                coVerify(exactly = 1) { mockActionExecutor.lockScreen() }
+                assertTextContentResponse(result, "Lock screen executed successfully")
+            }
+
+        @Test
+        @DisplayName("throws PermissionDenied when service not available")
+        fun throwsErrorWhenServiceNotAvailable() =
+            runTest {
+                // Arrange
+                every { mockAccessibilityServiceProvider.isReady() } returns false
+
+                // Act & Assert
+                assertThrows<McpToolException.PermissionDenied> { handler.execute(null) }
+                coVerify(exactly = 0) { mockActionExecutor.lockScreen() }
+            }
+
+        @Test
+        @DisplayName("throws ActionFailed when action fails")
+        fun throwsErrorWhenActionFails() =
+            runTest {
+                // Arrange
+                coEvery { mockActionExecutor.lockScreen() } returns
+                    Result.failure(RuntimeException("Global action failed"))
+
+                // Act & Assert
+                val exception = assertThrows<McpToolException.ActionFailed> { handler.execute(null) }
+                assertTrue(exception.message!!.contains("Global action failed"))
+            }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
     // dismiss_keyboard
     // ─────────────────────────────────────────────────────────────────────
 

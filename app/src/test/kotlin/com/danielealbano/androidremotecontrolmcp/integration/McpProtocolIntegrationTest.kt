@@ -135,7 +135,7 @@ class McpProtocolIntegrationTest {
         }
 
     companion object {
-        private const val EXPECTED_TOOL_COUNT = 65
+        private const val EXPECTED_TOOL_COUNT = 68
 
         private val EXPECTED_TOOL_NAMES =
             setOf(
@@ -165,6 +165,9 @@ class McpProtocolIntegrationTest {
                 "android_press_recents",
                 "android_open_notifications",
                 "android_open_quick_settings",
+                "android_lock_screen",
+                "android_wake_screen",
+                "android_get_lock_state",
                 "android_dismiss_keyboard",
                 // Text input
                 "android_type_append_text",
