@@ -70,7 +70,7 @@ To reach the phone from anywhere, the free end-to-end encrypted HTTPS tunnel giv
 - Auto-start on boot
 - Remote access tunnels via the free end-to-end encrypted tunnel (no account), Cloudflare Quick Tunnels or ngrok (public HTTPS URL)
 
-### 65 MCP Tools across 15 Categories
+### 68 MCP Tools across 15 Categories
 
 Screen introspection, system actions, touch actions, gestures, node actions, text input, utilities, file operations, app management, camera, intents, notifications, location, sharing, and shell.
 
