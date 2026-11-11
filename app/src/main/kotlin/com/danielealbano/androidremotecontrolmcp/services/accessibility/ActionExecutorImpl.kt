@@ -567,6 +567,15 @@ class ActionExecutorImpl
             )
 
         /**
+         * Locks the device: turns the screen off and shows the lock screen.
+         */
+        override suspend fun lockScreen(): Result<Unit> =
+            performGlobalAction(
+                android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_LOCK_SCREEN,
+                "lockScreen",
+            )
+
+        /**
          * Dismisses the soft keyboard if an input-method window is currently shown.
          *
          * Detects the keyboard via [McpAccessibilityService.getAccessibilityWindows] (an

@@ -11,6 +11,10 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
+    <!-- Screen power: wake the screen (TURN_SCREEN_ON is user-granted special access on Android 15+) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.TURN_SCREEN_ON" />
+
     <!-- Boot receiver -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 

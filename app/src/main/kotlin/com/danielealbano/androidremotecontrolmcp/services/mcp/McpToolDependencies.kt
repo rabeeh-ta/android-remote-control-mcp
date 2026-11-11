@@ -17,6 +17,7 @@ import com.danielealbano.androidremotecontrolmcp.services.camera.CameraProvider
 import com.danielealbano.androidremotecontrolmcp.services.intents.IntentDispatcher
 import com.danielealbano.androidremotecontrolmcp.services.location.LocationProvider
 import com.danielealbano.androidremotecontrolmcp.services.notifications.NotificationProvider
+import com.danielealbano.androidremotecontrolmcp.services.power.ScreenPowerController
 import com.danielealbano.androidremotecontrolmcp.services.screencapture.NodeImageCropper
 import com.danielealbano.androidremotecontrolmcp.services.screencapture.ScreenCaptureProvider
 import com.danielealbano.androidremotecontrolmcp.services.screencapture.ScreenshotAnnotator
@@ -65,7 +66,7 @@ class PrivacyToolDeps
         val screenshotRedactor: ScreenshotRedactor,
     )
 
-/** The device capabilities behind the file, app, camera, intent and location tools. */
+/** The device capabilities behind the file, app, camera, intent, location and screen power tools. */
 class DeviceToolDeps
     @Inject
     constructor(
@@ -75,6 +76,7 @@ class DeviceToolDeps
         val cameraProvider: CameraProvider,
         val intentDispatcher: IntentDispatcher,
         val locationProvider: LocationProvider,
+        val screenPowerController: ScreenPowerController,
     )
 
 /** What reaches the device from outside (notifications, shared content) and the links the tools hand out. */

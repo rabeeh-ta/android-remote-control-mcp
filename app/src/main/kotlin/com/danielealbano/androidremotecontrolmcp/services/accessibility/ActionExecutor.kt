@@ -149,6 +149,9 @@ interface ActionExecutor {
 
     suspend fun openQuickSettings(): Result<Unit>
 
+    /** Turns the screen off and shows the lock screen (same as pressing the power button). */
+    suspend fun lockScreen(): Result<Unit>
+
     /**
      * Dismisses the on-screen soft keyboard if one is currently open.
      *
